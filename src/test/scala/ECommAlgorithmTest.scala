@@ -22,11 +22,11 @@ class ECommAlgorithmTest
   )
   val algorithm = new ECommAlgorithm(algorithmParams)
 
-  val userStringIntMap = BiMap(Map("u0" -> 0, "u1" -> 1))
+  val userStringIntMap = BiMap(Map("0" -> 0, "1" -> 1))
 
-  val itemStringIntMap = BiMap(Map("i0" -> 0, "i1" -> 1, "i2" -> 2))
+  val itemStringIntMap = BiMap(Map("0" -> 0, "1" -> 1, "2" -> 2))
 
-  val users = Map("u0" -> User(), "u1" -> User())
+  val users = Map("0" -> User(), "1" -> User())
 
 
   val i0 = Item(categories = Some(List("c0", "c1")))
@@ -34,23 +34,23 @@ class ECommAlgorithmTest
   val i2 = Item(categories = Some(List("c0", "c2")))
 
   val items = Map(
-    "i0" -> i0,
-    "i1" -> i1,
-    "i2" -> i2
+    "0" -> i0,
+    "1" -> i1,
+    "2" -> i2
   )
 
   val view = Seq(
-    ViewEvent("u0", "i0", 1000010),
-    ViewEvent("u0", "i1", 1000020),
-    ViewEvent("u0", "i1", 1000020),
-    ViewEvent("u1", "i1", 1000030),
-    ViewEvent("u1", "i2", 1000040)
+    ViewEvent("0", "0", 1000010),
+    ViewEvent("0", "1", 1000020),
+    ViewEvent("0", "1", 1000020),
+    ViewEvent("1", "1", 1000030),
+    ViewEvent("1", "2", 1000040)
   )
 
   val buy = Seq(
-    BuyEvent("u0", "i0", 1000020),
-    BuyEvent("u0", "i1", 1000030),
-    BuyEvent("u1", "i1", 1000040)
+    BuyEvent("0", "0", 1000020),
+    BuyEvent("0", "1", 1000030),
+    BuyEvent("1", "1", 1000040)
   )
 
 
@@ -108,7 +108,7 @@ class ECommAlgorithmTest
         2 -> ProductModel(i2, Some(Array(1.0, 3.0, 1.0)), 1)
       ),
       query = Query(
-        user = "u0",
+        user = "0",
         num = 5,
         categories = Some(Set("c0")),
         whiteList = None,
@@ -130,7 +130,7 @@ class ECommAlgorithmTest
         2 -> ProductModel(i2, Some(Array(1.0, 3.0, 1.0)), 1)
       ),
       query = Query(
-        user = "u0",
+        user = "0",
         num = 5,
         categories = None,
         whiteList = None,
@@ -153,7 +153,7 @@ class ECommAlgorithmTest
         2 -> ProductModel(i2, Some(Array(1.0, 3.0, 1.0)), 1)
       ),
       query = Query(
-        user = "u0",
+        user = "0",
         num = 5,
         categories = Some(Set("c0")),
         whiteList = None,
