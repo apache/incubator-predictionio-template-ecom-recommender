@@ -64,8 +64,6 @@ class ECommAlgorithmTest
     )
 
     val mllibRatings = algorithm.genMLlibRating(
-      userStringIntMap = userStringIntMap,
-      itemStringIntMap = itemStringIntMap,
       data = preparedData
     )
 
@@ -88,8 +86,6 @@ class ECommAlgorithmTest
     )
 
     val popCount = algorithm.trainDefault(
-      userStringIntMap = userStringIntMap,
-      itemStringIntMap = itemStringIntMap,
       data = preparedData
     )
 

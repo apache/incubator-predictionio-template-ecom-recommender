@@ -23,7 +23,9 @@ class DataSource(val dsp: DataSourceParams)
 
   override
   def readTraining(sc: SparkContext): TrainingData = {
-
+    val cacheEvents = false
+    
+    
     // create a RDD of (entityID, User)
     val usersRDD: RDD[(String, User)] = PEventStore.aggregateProperties(
       appName = dsp.appName,
@@ -39,7 +41,11 @@ class DataSource(val dsp: DataSourceParams)
         }
       }
       (entityId, user)
-    }.cache()
+    }
+    if(cacheEvents){
+      usersRDD.cache()  
+    }
+    
 
     // create a RDD of (entityID, Item)
     val itemsRDD: RDD[(String, Item)] = PEventStore.aggregateProperties(
@@ -57,7 +63,10 @@ class DataSource(val dsp: DataSourceParams)
         }
       }
       (entityId, item)
-    }.cache()
+    }
+    if(cacheEvents){
+      itemsRDD.cache()  
+    }
 
     val eventsRDD: RDD[Event] = PEventStore.find(
       appName = dsp.appName,
@@ -65,7 +74,9 @@ class DataSource(val dsp: DataSourceParams)
       eventNames = Some(List("view", "buy")),
       // targetEntityType is optional field of an event.
       targetEntityType = Some(Some("item")))(sc)
-      .cache()
+    if(cacheEvents){
+      eventsRDD.cache()  
+    }
 
     val viewEventsRDD: RDD[ViewEvent] = eventsRDD
       .filter { event => event.event == "view" }
