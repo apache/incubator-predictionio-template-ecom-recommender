@@ -3,6 +3,11 @@ package org.template.ecommercerecommendation
 import org.apache.spark.{SparkConf, SparkContext}
 import org.scalatest.{BeforeAndAfterAll, Suite}
 
+
+import org.scalatest.junit.JUnitRunner
+import org.junit.runner.RunWith
+
+@RunWith(classOf[JUnitRunner])
 trait EngineTestSparkContext extends BeforeAndAfterAll {
   self: Suite =>
   @transient private var _sc: SparkContext = _

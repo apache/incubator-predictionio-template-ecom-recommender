@@ -27,7 +27,7 @@ class DataSource(val dsp: DataSourceParams)
     
     
     // create a RDD of (entityID, User)
-    val usersRDD: RDD[(String, User)] = PEventStore.aggregateProperties(
+    val usersRDD: RDD[(Int, User)] = PEventStore.aggregateProperties(
       appName = dsp.appName,
       entityType = "user"
     )(sc).map { case (entityId, properties) =>
@@ -40,7 +40,7 @@ class DataSource(val dsp: DataSourceParams)
           throw e
         }
       }
-      (entityId, user)
+      (entityId.toInt, user)
     }
     if(cacheEvents){
       usersRDD.cache()  
@@ -48,7 +48,7 @@ class DataSource(val dsp: DataSourceParams)
     
 
     // create a RDD of (entityID, Item)
-    val itemsRDD: RDD[(String, Item)] = PEventStore.aggregateProperties(
+    val itemsRDD: RDD[(Int, Item)] = PEventStore.aggregateProperties(
       appName = dsp.appName,
       entityType = "item"
     )(sc).map { case (entityId, properties) =>
@@ -62,7 +62,7 @@ class DataSource(val dsp: DataSourceParams)
           throw e
         }
       }
-      (entityId, item)
+      (entityId.toInt, item)
     }
     if(cacheEvents){
       itemsRDD.cache()  
@@ -83,8 +83,8 @@ class DataSource(val dsp: DataSourceParams)
       .map { event =>
         try {
           ViewEvent(
-            user = event.entityId,
-            item = event.targetEntityId.get,
+            user = event.entityId.toInt,
+            item = event.targetEntityId.get.toInt,
             t = event.eventTime.getMillis
           )
         } catch {
@@ -100,8 +100,8 @@ class DataSource(val dsp: DataSourceParams)
       .map { event =>
         try {
           BuyEvent(
-            user = event.entityId,
-            item = event.targetEntityId.get,
+            user = event.entityId.toInt,
+            item = event.targetEntityId.get.toInt,
             t = event.eventTime.getMillis
           )
         } catch {
@@ -125,13 +125,13 @@ case class User()
 
 case class Item(categories: Option[List[String]])
 
-case class ViewEvent(user: String, item: String, t: Long)
+case class ViewEvent(user: Int, item: Int, t: Long)
 
-case class BuyEvent(user: String, item: String, t: Long)
+case class BuyEvent(user: Int, item: Int, t: Long)
 
 class TrainingData(
-  val users: RDD[(String, User)],
-  val items: RDD[(String, Item)],
+  val users: RDD[(Int, User)],
+  val items: RDD[(Int, Item)],
   val viewEvents: RDD[ViewEvent],
   val buyEvents: RDD[BuyEvent]
 ) extends Serializable {

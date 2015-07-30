@@ -19,8 +19,8 @@ class Preparator
 }
 
 class PreparedData(
-  val users: RDD[(String, User)],
-  val items: RDD[(String, Item)],
+  val users: RDD[(Int, User)],
+  val items: RDD[(Int, Item)],
   val viewEvents: RDD[ViewEvent],
   val buyEvents: RDD[BuyEvent]
 ) extends Serializable

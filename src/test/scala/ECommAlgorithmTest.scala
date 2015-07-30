@@ -2,11 +2,14 @@ package org.template.ecommercerecommendation
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
+import org.scalatest.junit.JUnitRunner
+import org.junit.runner.RunWith
 
 import io.prediction.data.storage.BiMap
 
 import org.apache.spark.mllib.recommendation.{Rating => MLlibRating}
 
+@RunWith(classOf[JUnitRunner])
 class ECommAlgorithmTest
   extends FlatSpec with EngineTestSparkContext with Matchers {
 
@@ -22,11 +25,11 @@ class ECommAlgorithmTest
   )
   val algorithm = new ECommAlgorithm(algorithmParams)
 
-  val userStringIntMap = BiMap(Map("0" -> 0, "1" -> 1))
+  val userStringIntMap = BiMap(Map(0 -> 0, 1 -> 1))
 
-  val itemStringIntMap = BiMap(Map("0" -> 0, "1" -> 1, "2" -> 2))
+  val itemStringIntMap = BiMap(Map(0 -> 0, 1 -> 1, 2 -> 2))
 
-  val users = Map("0" -> User(), "1" -> User())
+  val users = Map(0 -> User(), 1 -> User())
 
 
   val i0 = Item(categories = Some(List("c0", "c1")))
@@ -34,23 +37,23 @@ class ECommAlgorithmTest
   val i2 = Item(categories = Some(List("c0", "c2")))
 
   val items = Map(
-    "0" -> i0,
-    "1" -> i1,
-    "2" -> i2
+    0 -> i0,
+    1 -> i1,
+    2 -> i2
   )
 
   val view = Seq(
-    ViewEvent("0", "0", 1000010),
-    ViewEvent("0", "1", 1000020),
-    ViewEvent("0", "1", 1000020),
-    ViewEvent("1", "1", 1000030),
-    ViewEvent("1", "2", 1000040)
+    ViewEvent(0, 0, 1000010),
+    ViewEvent(0, 1, 1000020),
+    ViewEvent(0, 1, 1000020),
+    ViewEvent(1, 1, 1000030),
+    ViewEvent(1, 2, 1000040)
   )
 
   val buy = Seq(
-    BuyEvent("0", "0", 1000020),
-    BuyEvent("0", "1", 1000030),
-    BuyEvent("1", "1", 1000040)
+    BuyEvent(0, 0, 1000020),
+    BuyEvent(0, 1, 1000030),
+    BuyEvent(1, 1, 1000040)
   )
 
 
@@ -104,7 +107,7 @@ class ECommAlgorithmTest
         2 -> ProductModel(i2, Some(Array(1.0, 3.0, 1.0)), 1)
       ),
       query = Query(
-        user = "0",
+        user = 0,
         num = 5,
         categories = Some(Set("c0")),
         whiteList = None,
@@ -126,7 +129,7 @@ class ECommAlgorithmTest
         2 -> ProductModel(i2, Some(Array(1.0, 3.0, 1.0)), 1)
       ),
       query = Query(
-        user = "0",
+        user = 0,
         num = 5,
         categories = None,
         whiteList = None,
@@ -149,7 +152,7 @@ class ECommAlgorithmTest
         2 -> ProductModel(i2, Some(Array(1.0, 3.0, 1.0)), 1)
       ),
       query = Query(
-        user = "0",
+        user = 0,
         num = 5,
         categories = Some(Set("c0")),
         whiteList = None,
