@@ -172,7 +172,7 @@ class DataSource(val dsp: DataSourceParams)
       val testEventsRDD: RDD[Event] = eventsRDD.filter(_._2 % kFold == idx).map(_._1)
       logger.info(s"testEventsRDD count: ${testEventsRDD.count()}.")
 
-      val testViewEventsRDD: RDD[ViewEvent] = testEventsRDD
+      val trainingViewEventsRDD: RDD[ViewEvent] = trainingEventsRDD
         .filter { event => event.event == "view" }
         .map { event =>
           try {
@@ -188,9 +188,9 @@ class DataSource(val dsp: DataSourceParams)
               throw e
           }
         }
-      logger.info(s"testViewEventsRDD count: ${testViewEventsRDD.count()}.")
+      logger.info(s"trainingViewEventsRDD count: ${trainingViewEventsRDD.count()}.")
 
-      val testBuyEventsRDD: RDD[BuyEvent] = testEventsRDD
+      val trainingBuyEventsRDD: RDD[BuyEvent] = trainingEventsRDD
         .filter { event => event.event == "buy" }
         .map { event =>
           try {
@@ -206,7 +206,7 @@ class DataSource(val dsp: DataSourceParams)
               throw e
           }
         }
-      logger.info(s"testBuyEventsRDD count: ${testBuyEventsRDD.count()}.")
+      logger.info(s"trainingBuyEventsRDD count: ${trainingBuyEventsRDD.count()}.")
 
       val testViewEventsRDD: RDD[ViewEvent] = testEventsRDD
         .filter { event => event.event == "view" }
