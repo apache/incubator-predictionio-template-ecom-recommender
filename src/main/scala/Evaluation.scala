@@ -93,7 +93,10 @@ object RecommendationEvaluation extends Evaluation {
     ECommerceRecommendationEngine(),
     MetricEvaluator(
       metric = Jaccard(scoreThreshold = 1.0),
-      otherMetrics = Seq( PositiveCount(scoreThreshold = 1.0) )
+      otherMetrics = Seq( 
+        PositiveCount(scoreThreshold = 1.0),
+        PrecisionAtK(k =10, scoreThreshold = 1.0) 
+      )
     )
   )
 }
@@ -130,13 +133,12 @@ trait BaseEngineParamsList extends EngineParamsGenerator {
 
 object EngineParamsList extends BaseEngineParamsList {
   engineParamsList = for(
-    rank <- Seq(5,10,15);
-    numIterations <- Seq(20))
-    //rank <- Seq(10);
-    //numIterations <- Seq(10,20,30))
+    rank <- Seq(10);
+    numIterations <- Seq(20);
+    lambda <- Seq(0.01))
     yield baseEP.copy(
       algorithmParamsList = Seq(
-        ("ecomm", ECommAlgorithmParams("INVALID_APP_NAME", false, List("buy", "view"), List("view"), rank, numIterations, 0.01, Option(3)))) )
+        ("ecomm", ECommAlgorithmParams("INVALID_APP_NAME", false, List("buy", "view"), List("view"), rank, numIterations, lambda, Option(3)))) )
 }
 
 
