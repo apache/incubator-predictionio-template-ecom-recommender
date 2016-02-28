@@ -172,42 +172,6 @@ class DataSource(val dsp: DataSourceParams)
       val testEventsRDD: RDD[Event] = eventsRDD.filter(_._2 % kFold == idx).map(_._1)
       logger.info(s"testEventsRDD count: ${testEventsRDD.count()}.")
 
-      val trainingViewEventsRDD: RDD[ViewEvent] = trainingEventsRDD
-        .filter { event => event.event == "view" }
-        .map { event =>
-          try {
-            ViewEvent(
-              user = event.entityId,
-              item = event.targetEntityId.get,
-              t = event.eventTime.getMillis
-            )
-          } catch {
-            case e: Exception =>
-              logger.error(s"Cannot convert ${event} to ViewEvent." +
-                s" Exception: ${e}.")
-              throw e
-          }
-        }
-      logger.info(s"trainingViewEventsRDD count: ${trainingViewEventsRDD.count()}.")
-
-      val trainingBuyEventsRDD: RDD[BuyEvent] = trainingEventsRDD
-        .filter { event => event.event == "buy" }
-        .map { event =>
-          try {
-            BuyEvent(
-              user = event.entityId,
-              item = event.targetEntityId.get,
-              t = event.eventTime.getMillis
-            )
-          } catch {
-            case e: Exception =>
-              logger.error(s"Cannot convert ${event} to BuyEvent." +
-                s" Exception: ${e}.")
-              throw e
-          }
-        }
-      logger.info(s"trainingBuyEventsRDD count: ${trainingBuyEventsRDD.count()}.")
-
       val testViewEventsRDD: RDD[ViewEvent] = testEventsRDD
         .filter { event => event.event == "view" }
         .map { event =>

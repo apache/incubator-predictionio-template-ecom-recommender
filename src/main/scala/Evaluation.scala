@@ -124,7 +124,7 @@ object RecommendationEvaluation2 extends Evaluation {
 trait BaseEngineParamsList extends EngineParamsGenerator {
   protected val baseEP = EngineParams(
     dataSourceParams = DataSourceParams(
-      appName = "ecorec0",
+      appName = "INVALID_APP_NAME",
       evalParams = Some(DataSourceEvalParams(kFold = 2, queryNum = 5))))
 }
 
@@ -136,7 +136,7 @@ object EngineParamsList extends BaseEngineParamsList {
     //numIterations <- Seq(10,20,30))
     yield baseEP.copy(
       algorithmParamsList = Seq(
-        ("ecomm", ECommAlgorithmParams("ecorec0", false, List("buy", "view"), List("view"), rank, numIterations, 0.01, Option(3)))) )
+        ("ecomm", ECommAlgorithmParams("INVALID_APP_NAME", false, List("buy", "view"), List("view"), rank, numIterations, 0.01, Option(3)))) )
 }
 
 
