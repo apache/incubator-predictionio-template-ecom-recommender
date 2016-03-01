@@ -12,7 +12,7 @@
       "name": "ecomm",
       "params": {
         "appName": "INVALID_APP_NAME",
-        "unseenOnly": true,
+        "unseenOnly": false,
         "seenEvents": ["buy", "view"],
         "similarEvents": ["view"],
         "rank": 10,
