@@ -13,7 +13,7 @@ import org.apache.spark.rdd.RDD
 
 import grizzled.slf4j.Logger
 
-case class DataSourceEvalParams(kFold: Int, queryNum: Int)
+case class DataSourceEvalParams(kFold: Int, queryNum: Int, buyTestScore: Double, viewTestScore: Double)
 
 case class DataSourceParams(
   appName: String,
@@ -249,8 +249,8 @@ class DataSource(val dsp: DataSourceParams)
       val testingUsers = testEventsRDD.filter{ event => viewbuy.contains(event.event) }.map(event=>(event.entityId)).distinct
       logger.info(s"testingUsers count: ${testingUsers.count()}.")
 
-      val is1 = testBuyEventsRDD.map(ev=>((ev.user,ev.item),10.0))
-      val is2 = testViewEventsRDD.map(ev=>((ev.user,ev.item),1.0))
+      val is1 = testBuyEventsRDD.map(ev=>((ev.user,ev.item),evalParams.buyTestScore))
+      val is2 = testViewEventsRDD.map(ev=>((ev.user,ev.item),evalParams.viewTestScore))
       val is = is1.union(is2).reduceByKey(_+_)
       
       //val trainingItemScores = trainingBuyEventsRDD.map(ev=>(ev.user, new ItemScore(ev.item, 1.0))).groupByKey().map(x=>(x._1, x._2.toArray)).collect

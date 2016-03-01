@@ -128,7 +128,7 @@ trait BaseEngineParamsList extends EngineParamsGenerator {
   protected val baseEP = EngineParams(
     dataSourceParams = DataSourceParams(
       appName = "INVALID_APP_NAME",
-      evalParams = Some(DataSourceEvalParams(kFold = 2, queryNum = 5))))
+      evalParams = Some(DataSourceEvalParams(kFold = 2, queryNum = 5, buyTestScore = 10.0, viewTestScore = 1.0))))
 }
 
 object EngineParamsList extends BaseEngineParamsList {
